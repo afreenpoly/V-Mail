@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Box, InputBase, styled } from '@mui/material';
 import { Menu as MenuIcon, Tune, HelpOutlineOutlined, SettingsOutlined, 
     AppsOutlined, AccountCircleOutlined, Search } from '@mui/icons-material'
 
-import { gmailLogo } from '../constants/constant';
+import VmailLogo from "../images/vmail_t.png";
 
 const StyledAppBar = styled(AppBar)`
     background: #f5F5F5;
@@ -39,25 +39,29 @@ const OptionsWrapper = styled(Box)`
 const Header = ({ toggleDrawer }) => {
 
     return (
-        <StyledAppBar position="static">
-            <Toolbar>
-                <MenuIcon color="action" onClick={toggleDrawer} />
-                <img src={gmailLogo} alt="logo" style={{ width: 110, marginLeft: 15 }} />
-                <SearchWrapper>
-                    <Search color="action" />
-                    <InputBase />
-                    <Tune  color="action"/>
-                </SearchWrapper>
+      <StyledAppBar position="static">
+        <Toolbar>
+          <MenuIcon color="action" onClick={toggleDrawer} />
+          <img
+            src={VmailLogo}
+            alt="logo"
+            style={{ width: 110, marginLeft: 15 }}
+          />
+          <SearchWrapper>
+            <Search color="action" />
+            <InputBase />
+            <Tune color="action" />
+          </SearchWrapper>
 
-                <OptionsWrapper>
-                    <HelpOutlineOutlined color="action" />
-                    <SettingsOutlined color="action" />
-                    <AppsOutlined color="action" />
-                    <AccountCircleOutlined color="action" />
-               </OptionsWrapper>
-            </Toolbar>
-        </StyledAppBar>
-    )
+          <OptionsWrapper>
+            <HelpOutlineOutlined color="action" />
+            <SettingsOutlined color="action" />
+            <AppsOutlined color="action" />
+            <AccountCircleOutlined color="action" />
+          </OptionsWrapper>
+        </Toolbar>
+      </StyledAppBar>
+    );
 }
 
 export default Header;
