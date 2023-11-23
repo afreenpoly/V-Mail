@@ -1,5 +1,3 @@
-# Vmail
-
 ## Overview
 
 Vmail is an innovative email platform designed to make email communication accessible for visually impaired individuals. This project harnesses the power of voice recognition technology to create a user-friendly email experience that allows users to send and manage emails effortlessly using voice commands.
