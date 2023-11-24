@@ -3,6 +3,7 @@ import { lazy } from 'react';
 const Main = lazy(() => import('../pages/Main'));
 const Emails = lazy(() => import('../components/Emails'));
 const ViewEmail = lazy(() => import('../components/ViewEmail'));
+const Homepage = lazy(() => import('../components/Homepage/Homepage'));
 
 const routes = {
     main: {
@@ -20,6 +21,10 @@ const routes = {
     view: {
         path: '/view',
         element: ViewEmail
+    },
+    homepage: {
+        path: '/home',
+        element: Homepage
     }
 }
 

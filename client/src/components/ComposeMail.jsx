@@ -14,7 +14,7 @@ import useApi from "../hooks/useApi";
 import { API_URLS } from "../services/api.urls";
 
 const dialogStyle = {
-  height: "90%",
+  height: "93%",
   width: "80%",
   maxWidth: "100%",
   maxHeight: "100%",
