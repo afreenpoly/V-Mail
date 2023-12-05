@@ -1,0 +1,251 @@
+prompt,label
+Write an email.,compose_mail
+Draft a mail.,compose_mail
+Create a new email.,compose_mail
+Start a new email.,compose_mail
+Begin a new email.,compose_mail
+I want to send an email.,compose_mail
+I need to write an email.,compose_mail
+Can you help me write an email?,compose_mail
+Let’s start an email.,compose_mail
+Open a new email.,compose_mail
+Initiate a new email.,compose_mail
+I’d like to compose an email.,compose_mail
+I wish to draft an email.,compose_mail
+I’m looking to send an email.,compose_mail
+I’m thinking of writing an email.,compose_mail
+I have to write an email.,compose_mail
+I must send an email.,compose_mail
+I should draft an email.,compose_mail
+I could use some help with an email.,compose_mail
+Assist me in writing an email.,compose_mail
+Aid me in drafting an email.,compose_mail
+Support me in sending an email.,compose_mail
+Guide me in composing an email.,compose_mail
+I require assistance with an email.,compose_mail
+I need support with an email.,compose_mail
+I want to start an email.,compose_mail
+I need to begin an email.,compose_mail
+Can you assist me with an email?,compose_mail
+Let’s draft an email.,compose_mail
+Open up a new email.,compose_mail
+Kick off a new email.,compose_mail
+I’d like to start an email.,compose_mail
+I wish to begin an email.,compose_mail
+I’m looking to compose an email.,compose_mail
+I’m thinking of drafting an email.,compose_mail
+I have to send an email.,compose_mail
+I must write an email.,compose_mail
+I should compose an email.,compose_mail
+I could use some help with drafting an email.,compose_mail
+Assist me in sending an email.,compose_mail
+Aid me in writing an email.,compose_mail
+Support me in drafting an email.,compose_mail
+Guide me in sending an email.,compose_mail
+I require assistance with drafting an email.,compose_mail
+I need support with sending an email.,compose_mail
+I want to compose a mail.,compose_mail
+I need to draft a mail.,compose_mail
+Can you help me send a mail?,compose_mail
+Let’s write a mail.,compose_mail
+Open a new mail.,compose_mail
+Show my inbox,view_inbox
+Open my inbox,view_inbox
+Display my inbox,view_inbox
+Can you open my inbox?,view_inbox
+I want to see my inbox,view_inbox
+Let’s view my inbox,view_inbox
+Go to my inbox,view_inbox
+Navigate to my inbox,view_inbox
+Bring up my inbox,view_inbox
+I need to check my inbox,view_inbox
+Can we look at my inbox?,view_inbox
+Start showing my inbox,view_inbox
+Reveal my inbox,view_inbox
+I’d like to see my inbox,view_inbox
+Can we open the inbox?,view_inbox
+Unveil my inbox,view_inbox
+I need to open my inbox,view_inbox
+Can you display the inbox?,view_inbox
+Start viewing the inbox,view_inbox
+Expose my inbox,view_inbox
+I want to open the email inbox,view_inbox
+Can you show the email messages?,view_inbox
+Let’s check the new emails,view_inbox
+Go to the email messages,view_inbox
+Navigate to the new emails,view_inbox
+Bring up the email messages,view_inbox
+I need to check the new emails,view_inbox
+Can we look at the email messages?,view_inbox
+Start showing the new emails,view_inbox
+Reveal the email messages,view_inbox
+I’d like to see the new emails,view_inbox
+Can we open the email messages?,view_inbox
+Unveil the new emails,view_inbox
+I need to open the email messages,view_inbox
+Can you display the new emails?,view_inbox
+Start viewing the email messages,view_inbox
+Expose the new emails,view_inbox
+I want to check my mail messages,view_inbox
+Can you show me what’s in my mailbox?,view_inbox
+Let’s have a look at my mail,view_inbox
+Go through my mail,view_inbox
+Navigate through my mailbox,view_inbox
+Bring up what’s in my mailbox,view_inbox
+I need to go through my mail,view_inbox
+Can we look at what’s in my mailbox,view_inbox
+Start showing me what’s in my mailbox,view_inbox
+Reveal what’s in my mailbox,view_inbox
+I’d like to see what’s in my mailbox,view_inbox
+Can we open what’s in my mailbox,view_inbox
+Unveil what’s in my mailbox,view_inbox
+Delete this email.,delete_mail
+Remove this email.,delete_mail
+Erase this email.,delete_mail
+Can you delete this email?,delete_mail
+I want to delete this email.,delete_mail
+Let's delete this email.,delete_mail
+Go ahead and delete the email.,delete_mail
+Discard this email.,delete_mail
+I need to delete this email.,delete_mail
+Can we remove this email?,delete_mail
+Start deleting the email.,delete_mail
+Get rid of this email.,delete_mail
+I'd like to delete this email now.,delete_mail
+Can we erase the email?,delete_mail
+Trash this email.,delete_mail
+I need to remove this email.,delete_mail
+Can you discard this message?,delete_mail
+Start erasing the email.,delete_mail
+Eliminate this email.,delete_mail
+I want to discard the email.,delete_mail
+Can you trash this message?,delete_mail
+Let's get rid of this email.,delete_mail
+Begin deleting the email.,delete_mail
+I'd like to trash this message.,delete_mail
+Can we eliminate the email?,delete_mail
+Wipe out this email.,delete_mail
+I need to discard the message.,delete_mail
+Can you eliminate the message?,delete_mail
+Start trashing the message.,delete_mail
+Obliterate this message.,delete_mail
+I want to eliminate the message.,delete_mail
+Can you wipe out the message?,delete_mail
+Let's obliterate the message.,delete_mail
+Begin trashing the message.,delete_mail
+I'd like to wipe out the message.,delete_mail
+Can we obliterate the message.,delete_mail
+Purge this message from my inbox.,delete_mail
+I need to obliterate the message.,delete_mail
+Can you purge the message from my inbox.,delete_mail
+Start obliterating the message.,delete_mail
+Expunge this message from my inbox.,delete_mail
+I want to purge the message from my inbox.,delete_mail
+Can you expunge the message from my inbox.,delete_mail
+Let's expunge the message from my inbox.,delete_mail
+Begin purging the message from my inbox.,delete_mail
+I'd like to expunge the message from my inbox.,delete_mail
+Can we expunge the message from my inbox.,delete_mail
+Annihilate this message from my inbox.,delete_mail
+I need to expunge the message from my inbox.,delete_mail
+Can you annihilate the message from my inbox.,delete_mail
+Star this email.,star_mail
+Mark this email as starred.,star_mail
+Highlight this email.,star_mail
+Can you star this email?,star_mail
+I want to star this email.,star_mail
+Let's star this email.,star_mail
+Go ahead and star the email.,star_mail
+Flag this email.,star_mail
+I need to star this email.,star_mail
+Can we flag this email?,star_mail
+Start starring the email.,star_mail
+Bookmark this email.,star_mail
+I'd like to star this email now.,star_mail
+Can we bookmark the email?,star_mail
+Tag this email as important.,star_mail
+I need to flag this email.,star_mail
+Can you bookmark this message?,star_mail
+Start flagging the message.,star_mail
+Label this message as starred.,star_mail
+I want to bookmark the message.,star_mail
+Can you tag this message as important?,star_mail
+Let's label this message as starred.,star_mail
+Begin starring the message.,star_mail
+I'd like to tag this message as important.,star_mail
+Can we label the message as starred.,star_mail
+Pin this message as starred.,star_mail
+I need to label the message as starred.,star_mail
+Can you pin the message as starred.,star_mail
+Start pinning the message as starred.,star_mail
+Mark this message with a star.,star_mail
+I want to pin the message as starred.,star_mail
+Can you mark this message with a star?,star_mail
+Let's mark this message with a star.,star_mail
+Begin pinning the message as starred.,star_mail
+I'd like to mark this message with a star.,star_mail
+Can we mark this message with a star.,star_mail
+Highlight this message with a star.,star_mail
+I need to mark this message with a star.,star_mail
+Can you highlight this message with a star.,star_mail
+Start highlighting the message with a star.,star_mail
+Flag up this message with a star.,star_mail
+I want to highlight the message with a star.,star_mail
+Can you flag up this message with a star.,star_mail
+Let's flag up the message with a star.,star_mail
+Begin highlighting the message with a star.,star_mail
+I'd like to flag up the message with a star.,star_mail
+Can we flag up the message with a star.,star_mail
+Tag up this message with a star.,star_mail
+I need to flag up the message with a star.,star_mail
+Can you tag up the message with a star?,star_mail
+Read the next email.,read_next
+Go to the next email.,read_next
+Move to the next email.,read_next
+Can you read the next email?,read_next
+I want to hear the next email.,read_next
+Let's read the next email.,read_next
+Proceed to the next email.,read_next
+Open the next email.,read_next
+I need to hear the next email.,read_next
+Can we open the next email?,read_next
+Start reading the next email.,read_next
+Access the next email.,read_next
+I'd like to hear the next email now.,read_next
+Can we access the next email?,read_next
+Navigate to the next email.,read_next
+I need to open the next email.,read_next
+Can you access the next message?,read_next
+Start opening the next message.,read_next
+Get to the next message.,read_next
+I want to open the next message.,read_next
+Can you get to the next message?,read_next
+Let's get to the next message.,read_next
+Begin reading the next message.,read_next
+I'd like to get to the next message.,read_next
+Can we get to the next message?,read_next
+Advance to the next message.,read_next
+I need to get to the next message.,read_next
+Can you advance to the next message?,read_next
+Start advancing to the next message.,read_next
+Reach out for the next message.,read_next
+I want to advance to the next message.,read_next
+Can you reach out for the next message?,read_next
+Let's reach out for the next message.,read_next
+Begin advancing to the next message.,read_next
+I'd like to reach out for the next message.,read_next
+Can we reach out for the next message.,read_next
+"Proceed towards reading out loud, my following mail.",read_next
+I need to reach out for my following mail.,read_next
+"Can you proceed towards reading out loud, my following mail.",read_next
+"Start proceeding towards reading out loud, my following mail.",read_next
+"Move forward towards reading out loud, my following mail.",read_next
+"I want you to proceed towards reading out loud, my following mail.",read_next
+"Can you move forward towards reading out loud, my following mail.",read_next
+"Let’s move forward towards reading out loud, my following mail.",read_next
+"Begin proceeding towards reading out loud, my following mail.",read_next
+"I’d like you to move forward towards reading out loud, my following mail.",read_next
+"Can we move forward towards reading out loud, my following mail.",read_next
+"Advance forward towards reading out loud, my following mail.",read_next
+"I need you to move forward towards reading out loud, my following mail.",read_next
+"Can you advance forward towards reading out loud, my following mail?",read_next
