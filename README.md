@@ -13,8 +13,75 @@ Vmail is an innovative email platform designed to make email communication acces
 - [Afreen Poly](https://github.com/afreenpoly)
 - [Aadil Mohammed Sayad](https://github.com/aadilsayad)
 - [Adithyanarayanan S](https://github.com/1ce-one)
-- [Dhinoo](https://github.com/Dhinuku)
-  
+<!--- [Dhinoo](https://github.com/Dhinuku)-->
+- [Aswin K](https://github.com/Asterdev-03)
+
+
+## Flow of Implementation
+
+### 1. Google Speech-to-Text (STT)
+
+- **Objective:** Enable voice input for users.
+
+- **Implementation Steps:**
+  - Integrate Google STT API.
+  - Capture and send spoken words from the frontend.
+  - Receive transcribed text on the backend.
+
+### 2. Albert Model for Intent Classification
+
+- **Objective:** Classify user intents based on the transcribed text.
+
+- **Implementation Steps:**
+  - Train or use a pre-trained Albert model for intent classification.
+  - Integrate the model into the Flask backend.
+  - Process transcribed text and determine user intent.
+
+### 3. Google Text-to-Speech (TTS) API
+
+- **Objective:** Provide a voice response to the user based on intent.
+
+- **Implementation Steps:**
+  - Utilize Google TTS API to convert text to speech.
+  - Send the speech response from the backend to the frontend.
+  - Play the speech response on the frontend.
+
+### 4. React as Frontend
+
+- **Objective:** Create an interactive and user-friendly frontend.
+
+- **Implementation Steps:**
+  - Develop React components for user interface elements.
+  - Connect with the backend to send and receive data.
+  - Implement a seamless user experience.
+
+### 5. Flask as Backend
+
+- **Objective:** Handle logic, connect with APIs, and manage data.
+
+- **Implementation Steps:**
+  - Set up Flask routes for handling frontend requests.
+  - Integrate Google OAuth for user authentication.
+  - Connect with Google STT, Albert Model, and TTS APIs.
+  - Manage the flow of data between frontend and backend.
+
+### 6. Google OAuth for Login
+
+- **Objective:** Ensure secure and authenticated user access.
+
+- **Implementation Steps:**
+  - Integrate Google OAuth for user authentication.
+  - Manage user sessions and access tokens.
+
+### 7. Connect Frontend, Backend, and the Model
+
+- **Objective:** Establish seamless communication between frontend, backend, and the Albert Model.
+
+- **Implementation Steps:**
+  - Ensure proper API integration between frontend and backend.
+  - Transmit data between components efficiently.
+  - Test and validate the end-to-end flow.
+
 ## Getting Started
 
 To get started with Vmail, follow these steps:
