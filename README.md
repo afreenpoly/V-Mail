@@ -13,8 +13,9 @@ Vmail is an innovative email platform designed to make email communication acces
 - [Afreen Poly](https://github.com/afreenpoly)
 - [Aadil Mohammed Sayad](https://github.com/aadilsayad)
 - [Adithyanarayanan S](https://github.com/1ce-one)
-<!--- [Dhinoo](https://github.com/Dhinuku)-->
 - [Aswin K](https://github.com/Asterdev-03)
+<!--- [Dhinoo](https://github.com/Dhinuku)-->
+
 
 
 ## Flow of Implementation
