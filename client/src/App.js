@@ -3,6 +3,7 @@ import { Navigate, Route, createBrowserRouter, createRoutesFromElements, RouterP
 import { routes } from "./routes/routes";
 import SuspenseLoader from './components/common/SuspenseLoader';
 import DataProvider from './context/DataProvider';
+import Check from './Check';
 
 const ErrorComponent = lazy(() => import('./components/common/ErrorComponent'));
 
@@ -12,10 +13,13 @@ const router = createBrowserRouter(
       <Route path={routes.main.path} element={<Navigate to={routes.homepage.path} />} />
       <Route path={routes.homepage.path} element={<routes.homepage.element />} />
       <Route path={routes.main.path} element={<routes.main.element />} >
-        <Route path={`${routes.emails.path}/:type`} element={<routes.emails.element />} errorElement={<ErrorComponent />} />
+        <Route path={`${routes.emails.path}/:type`} element={<Check/>} errorElement={<ErrorComponent />} />
+        <Route path={`${routes.emails.path}`} element={<Check/>} errorElement={<ErrorComponent />} />
         <Route path={routes.view.path} element={<routes.view.element />} errorElement={<ErrorComponent />} />
       </Route>
-      <Route path={routes.invalid.path} element={<Navigate to={`${routes.emails.path}/inbox`} />} />
+      <Route path={routes.invalid.path} element={<ErrorComponent />} />
+      <Route path={routes.logout.path} element={<routes.logout.element/>}/>
+      <Route path={routes.verify.path} element={<routes.verify.element/>}/>
     </Route>
 
   )
@@ -25,7 +29,7 @@ function App() {
   return (
     <Suspense fallback={<SuspenseLoader />}>
       <DataProvider>
-        <RouterProvider router={router} />
+          <RouterProvider router={router} />          
       </DataProvider>
     </Suspense>
   );
