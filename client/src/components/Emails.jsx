@@ -7,6 +7,7 @@ import Email from './Email';
 import { DeleteOutline } from '@mui/icons-material';
 import NoMails from './common/NoMails';
 import { EMPTY_TABS } from '../constants/constant';
+import EmailList from '../EmailList';
 
 const Emails = () => {
     const [starredEmail, setStarredEmail] = useState(false);
@@ -48,17 +49,7 @@ const Emails = () => {
                 <DeleteOutline onClick={(e) => deleteSelectedEmails(e)} />
             </Box>
             <List>
-                {
-                    getEmailsService?.response?.map(email => (
-                        <Email 
-                            email={email} 
-                            key={email.id}
-                            setStarredEmail={setStarredEmail} 
-                            selectedEmails={selectedEmails}
-                            setSelectedEmails={setSelectedEmails}
-                        />
-                    ))
-                }
+                <EmailList/>
             </List> 
             {
                 getEmailsService?.response?.length === 0 &&

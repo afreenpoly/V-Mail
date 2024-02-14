@@ -112,7 +112,6 @@ const ComposeMail = ({ open, setOpenDrawer }) => {
 
   const closeComposeMail = (e) => {
     e.preventDefault();
-
     const payload = {
       to: data.to,
       from: "codeforinterview03@gmail.com",
