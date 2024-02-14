@@ -38,7 +38,7 @@ const Homepage = () => {
           <div className="mt-5 w-full max-w-[440px]">
             {/* Log in and Sign up buttons */}
             <div className="grid gap-x-3 gap-y-2 sm:grid-cols-1 sm:gap-y-0 ">
-              <button
+              <button onClick={signIn}
                 className="relative flex h-12 items-center justify-center rounded-md text-center text-base font-medium bg-[#3C46FF] text-[#fff] hover:bg-[#0000FF]"
                 data-testid="login-button"
               >
@@ -60,3 +60,31 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
+const signIn = () => {
+  let endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
+  let form = document.createElement('form')
+  form.setAttribute('method', 'GET')
+  form.setAttribute('action', endpoint)
+
+  let params = {
+      "client_id": "435103188171-s26urp6qsll47klpef1tqi5dkhu2tp1p.apps.googleusercontent.com",
+      "redirect_uri": "http://localhost:3000/verify",
+      "response_type": "token",
+      "scope": "https://mail.google.com",
+      "include_granted_scopes": 'true',
+      "state": "pass-through-value"
+  }
+
+  for(var p in params){
+      let input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', p)
+      input.setAttribute('value', params[p])
+      form.appendChild(input)
+  }
+
+  document.body.appendChild(form)
+
+  form.submit()
+}
