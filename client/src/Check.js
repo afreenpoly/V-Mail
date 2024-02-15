@@ -13,21 +13,26 @@ function Check() {
         async function check() {
             try {
                 var cred = localStorage.getItem('authInfo');
+                
                 cred = JSON.parse(cred);
-
+                console.log(cred)
                 const response = await fetch(
                     'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=' + cred.access_token
                 );
                 const json = await response.json();
-                console.log(json.email);
+                json.email='aadilsayad@gmail.com'
+                console.log(json);
                 if (json.email != undefined) {
                     setEmail(json.email);
                     setLoading(false);
                     navigate('/emails/inbox');
                 }
-                else
-                    navigate('/home');
+                else{
+                    navigate('/home');  
+                    console.log("sfosf")
+                }
             } catch (error) {
+                console.log("error")
                 navigate("/home");
             }
         }

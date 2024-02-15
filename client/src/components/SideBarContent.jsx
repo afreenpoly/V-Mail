@@ -163,7 +163,7 @@ const ComposeButton = styled(Button)`
 
     useEffect(()=>{
       const interval=setInterval(()=>{
-        setData({"to":dict.to.toLowerCase(),"subject":dict.subject,"body":dict.body});
+        setData({"to":dict.to.toLowerCase().replace(" ", ""),"subject":dict.subject,"body":dict.body});
       },500);
       return () => clearInterval(interval);
     }, []);
@@ -171,7 +171,10 @@ const ComposeButton = styled(Button)`
     
     const onValueChange = (e) => {
       setData({ ...data, [e.target.name]: e.target.value });
-      dict[e.target.name]=e.target.value
+      if(e.targe.name=="to")
+        dict[e.target.name]=e.target.value.replace(" ","");
+      else
+        dict[e.target.name]=e.target.value
     };
  
     const sendEmail = async () => {

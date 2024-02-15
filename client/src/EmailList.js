@@ -98,7 +98,7 @@ const EmailList = () => {
             size="small" 
         />
         <Box onClick={() => navigate(routes.view.path, { state: { email: emailDetail }})}>
-            <Typography style={{ width: 200 }}>From:{emailDetail.payload.headers.find(header => header.name === 'From').value.split('@')[0]}</Typography>
+            <Typography style={{ width: 200 }}>{emailDetail.payload.headers.find(header => header.name === 'From').value.split('@')[0]}</Typography>
             <Indicator>Inbox</Indicator>
             <Typography>{emailDetail.payload.headers.find(header => header.name === 'Subject').value} {emailDetail.snippet && '-'} {emailDetail.snippet}</Typography>
             <Date>
