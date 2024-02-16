@@ -22,7 +22,7 @@ async function query(data) {
     const result = await response.json();
     return result;
 }
-var cred=localStorage.getItem('authInfo')
+var cred=localStorage.getItem('accessRefresh')
 cred=JSON.parse(cred)
 var mic=true;
 var SpeechRecognition=window.webkitSpeechRecognition
@@ -171,11 +171,15 @@ const ComposeButton = styled(Button)`
     
     const onValueChange = (e) => {
       setData({ ...data, [e.target.name]: e.target.value });
-      if(e.targe.name=="to")
-        dict[e.target.name]=e.target.value.replace(" ","");
-      else
-        dict[e.target.name]=e.target.value
+    
+      if (e.target.name === "to") {
+        const wordWithoutSpaces = e.target.value.replace(/\s/g, ""); // Remove spaces
+        dict[e.target.name] = wordWithoutSpaces;
+      } else {
+        dict[e.target.name] = e.target.value;
+      }
     };
+    
  
     const sendEmail = async () => {
         try {
@@ -223,6 +227,7 @@ const ComposeButton = styled(Button)`
         dict={"to": '',"subject":'',"body":'' };
         count=0;
         counter=0;
+        final_transcript='';
         setTimeout(function(){recognition.start();},1000);
         setOpenDrawer(false);
         setData({});
@@ -240,9 +245,11 @@ const ComposeButton = styled(Button)`
       switch(count){
         case 0:
           dict.to=final_transcript+interim_transcript;
+          dict.to=dict.to.replace(/\s/g, "");
           if (event.results[i].isFinal) {
             msg.text=msgs[3];
-            window.speechSynthesis.speak(msg); 
+            window.speechSynthesis.speak(msg);
+            recognition1.stop();
             count+=1;
           }
           break;         
@@ -250,7 +257,8 @@ const ComposeButton = styled(Button)`
           dict.subject=final_transcript+interim_transcript;
           if (event.results[i].isFinal) {
             msg.text=msgs[3];
-            window.speechSynthesis.speak(msg); 
+            window.speechSynthesis.speak(msg);
+            recognition1.stop(); 
             count+=1;
           }
           break;          
@@ -258,7 +266,8 @@ const ComposeButton = styled(Button)`
           dict.body=final_transcript+interim_transcript;
           if (event.results[i].isFinal) {
             msg.text=msgs[3];
-            window.speechSynthesis.speak(msg); 
+            window.speechSynthesis.speak(msg);
+            recognition1.stop(); 
             count+=1;
           }
           break;          
@@ -272,22 +281,25 @@ const ComposeButton = styled(Button)`
                   count+=2;
                   counter+=1;
                   msg.text=msgs[counter];
-                  window.speechSynthesis.speak(msg);                   
+                  window.speechSynthesis.speak(msg);
+                  recognition1.abort();                  
                   final_transcript='';
                   interim_transcript='';
                 }
                 else{
-                  closeComposeMail();
+                  sendEmail();
                 }
                 break;
               case "no":
                 count+=1;
                 msg.text=msgs[4];
                 window.speechSynthesis.speak(msg);
+                recognition1.abort();
                 break  
               default:
                 msg.text="Please repeat your statement Yes or No"
-                window.speechSynthesis.speak(msg); 
+                window.speechSynthesis.speak(msg);
+                recognition1.abort(); 
                 break;           
           }
           break
@@ -299,27 +311,32 @@ const ComposeButton = styled(Button)`
             case "add":
               count-=2;
               msg.text=msgs[counter];
-              window.speechSynthesis.speak(msg); 
+              window.speechSynthesis.speak(msg);
+              recognition1.abort(); 
               break;
             case "replace":
               count-=2;
               interim_transcript='';
               final_transcript='';
               msg.text=msgs[counter];
-              window.speechSynthesis.speak(msg); 
+              window.speechSynthesis.speak(msg);
+              recognition1.abort(); 
               break;             
             case "cancel":
               closeComposeMail();
+              final_transcript='';
               break
             default:
               msg.text="Please repeat your statement Add , Repeat or Cancel"
-              window.speechSynthesis.speak(msg); 
+              window.speechSynthesis.speak(msg);
+              recognition1.abort(); 
               break;
         }
         break;
         default:
           msg.text="Please repeat your statement"
-          window.speechSynthesis.speak(msg); 
+          window.speechSynthesis.speak(msg);
+          recognition1.abort(); 
           break;
       }
     }   

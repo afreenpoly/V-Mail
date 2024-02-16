@@ -33,8 +33,8 @@ const Date = styled(Typography)({
     color: '#5F6368'
 })
 
-var cred=localStorage.getItem('authInfo')
-cred=JSON.parse(cred);
+var cred= JSON.parse(localStorage.getItem('accessRefresh'))
+console.log(cred)
 const EmailDetails = async (messageId) => {
     try {
         // Make a fetch request to the Gmail API to get the email message details
@@ -78,7 +78,7 @@ const EmailList = () => {
                 }
                 const dict=[];
                 const data = await response.json();                
-                for(var i=0;i<data.messages.length;i++){
+                for(var i=0;i<10;i++){
                     const emaildata=await EmailDetails(data.messages[i].id);
                     dict.push(emaildata)
                     setMessage(dict);

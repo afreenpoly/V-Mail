@@ -70,10 +70,9 @@ const signIn = () => {
   let params = {
       "client_id": "435103188171-s26urp6qsll47klpef1tqi5dkhu2tp1p.apps.googleusercontent.com",
       "redirect_uri": "http://localhost:3000/verify",
-      "response_type": "token",
+      "response_type": "code",
       "scope": "https://mail.google.com",
-      "include_granted_scopes": 'true',
-      "state": "pass-through-value"
+      "access_type": "offline"
   }
 
   for(var p in params){
