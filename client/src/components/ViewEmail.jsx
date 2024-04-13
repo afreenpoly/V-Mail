@@ -70,8 +70,8 @@ const ViewEmail = () => {
                 <Container>
                     <Box>
                         <Typography>    
-                            {email.to.split('@')[0]} 
-                            <Box component="span">&nbsp;&#60;{email.to}&#62;</Box>
+                            {email.from.split('@')[0]} 
+                            <Box component="span">&nbsp;&#60;{email.from}&#62;</Box>
                         </Typography>
                         <Date>
                             {(new window.Date(email.date)).getDate()}&nbsp;

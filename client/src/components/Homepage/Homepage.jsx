@@ -61,7 +61,7 @@ const Homepage = () => {
 
 export default Homepage;
 
-const signIn = () => {
+const signIn = async () => {
   let endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
   let form = document.createElement('form')
   form.setAttribute('method', 'GET')

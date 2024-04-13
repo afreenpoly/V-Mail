@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import {
   Dialog,
@@ -10,8 +10,6 @@ import {
   Button,
 } from "@mui/material";
 import { Close, DeleteOutline } from "@mui/icons-material";
-import useApi from "../hooks/useApi";
-import { API_URLS } from "../services/api.urls";
 
 const dialogStyle = {
   height: "93%",
@@ -60,78 +58,73 @@ const SendButton = styled(Button)`
   width: 100px;
 `;
 
-const ComposeMail = ({ open, setOpenDrawer }) => {
+var dict={"to": '',"subject":'',"body":''}
+
+const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,final_transcript,msg}) => {
   const [data, setData] = useState({});
-  const sentEmailService = useApi(API_URLS.saveSentEmails);
-  const saveDraftService = useApi(API_URLS.saveDraftEmails);
 
-  const config = {
-    Username: process.env.REACT_APP_USERNAME,
-    Password: process.env.REACT_APP_PASSWORD,
-    Host: "smtp.elasticemail.com",
-    Port: 2525,
-  };
+  var msgs=["Please spell out the email address of the recipient","Subject","Please verbalize the content of your email ","Proceed forward yes or no","Add, Replace or Cancel"];
 
+  useEffect(()=>{
+    const interval=setInterval(()=>{
+      setData({"to":dict.to.toLowerCase(),"subject":dict.subject,"body":dict.body});
+    },500);
+    return () => clearInterval(interval);
+  }, []);
+
+  
   const onValueChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    dict[e.target.name]=e.target.value
   };
 
-  const sendEmail = async (e) => {
-    e.preventDefault();
+  const sendEmail = async () => {
+      try {
+        const sendDetails = {
+          recipient: dict.to,
+          subject: dict.subject,
+          body: dict.body
+        }
+    const response = await fetch('http://localhost:5000/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendDetails)
+    });
 
-    if (window.Email) {
-      window.Email.send({
-        ...config,
-        To: data.to,
-        From: "codeforinterview03@gmail.com",
-        Subject: data.subject,
-        Body: data.body,
-      }).then((message) => alert(message));
+    if (!response.ok) {
+        throw new Error('Failed to send email');
     }
+        else{
+          ct.mic=true
+          recognition1.abort();
+          ct.count=0;
+          ct.counter=0;
+          final_transcript='';
+          dict={"to": '',"subject":'',"body":'' };
+          setTimeout(function(){recognition.start();},1000);
+          setOpenDrawer(false);
+          setData({});
+          console.log('Email sent successfully');
+        }
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+  };
 
-    const payload = {
-      to: data.to,
-      from: "codeforinterview03@gmail.com",
-      subject: data.subject,
-      body: data.body,
-      date: new Date(),
-      image: "",
-      name: "Code for Interview",
-      starred: false,
-      type: "sent",
-    };
-
-    sentEmailService.call(payload);
-
-    if (!sentEmailService.error) {
+  const closeComposeMail = () => {
+      ct.mic=true
+      recognition1.abort();
+      dict={"to": '',"subject":'',"body":'' };
+      ct.count=0;
+      ct.counter=0;
+      setTimeout(function(){recognition.start();},1000);
       setOpenDrawer(false);
       setData({});
-    } else {
-    }
   };
 
-  const closeComposeMail = (e) => {
-    e.preventDefault();
-    const payload = {
-      to: data.to,
-      from: "codeforinterview03@gmail.com",
-      subject: data.subject,
-      body: data.body,
-      date: new Date(),
-      image: "",
-      name: "Code for Interview",
-      starred: false,
-      type: "drafts",
-    };
-
-    saveDraftService.call(payload);
-
-    if (!saveDraftService.error) {
-      setOpenDrawer(false);
-      setData({});
-    } else {
-    }
-  };
+  Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail,closeComposeMail)
 
   return (
     <Dialog open={open} PaperProps={{ sx: dialogStyle }}>
@@ -169,4 +162,4 @@ const ComposeMail = ({ open, setOpenDrawer }) => {
   );
 };
 
-export default ComposeMail;
+export default ComposeMail

@@ -17,7 +17,7 @@ function Check() {
             try {
                 var cred = JSON.parse(localStorage.getItem('authInfo'));
                 var access_code = cred['code']
-                const response = await fetch(
+                const tokensResponse = await fetch(
                     'https://oauth2.googleapis.com/token', {
                         method: 'post',
                         headers: {
@@ -33,13 +33,26 @@ function Check() {
                     }
                 );
         
-                const responseData = await response.json();
-                console.log(responseData);
-                localStorage.setItem("accessRefresh", JSON.stringify(responseData))
+                const clientTokens = await tokensResponse.json();
+                console.log(clientTokens);
 
+                // send responseData to server
+                
+                localStorage.setItem("accessRefresh", JSON.stringify(clientTokens))
+                var tokensToSend = JSON.parse(localStorage.getItem('accessRefresh'));
+                const credsResponse = await fetch('http://localhost:5000/tokens', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(tokensToSend)
+                });
+                const credsResponseJSON = await credsResponse.json()
+                console.log(credsResponseJSON)
+                
 
                 const resp = await fetch(
-                    'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=' + responseData.access_token
+                    'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=' + clientTokens.access_token
                 );
 
                 const respJSON = await resp.json();
@@ -47,7 +60,7 @@ function Check() {
 
                 respJSON.email='aadilsayad@gmail.com'
                 
-                if (respJSON.email != undefined) {
+                if (respJSON.email !== undefined) {
                     setEmail(respJSON.email);
                     setLoading(false);
                     navigate('/emails/inbox');

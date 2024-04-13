@@ -8,6 +8,7 @@ import { DeleteOutline } from '@mui/icons-material';
 import NoMails from './common/NoMails';
 import { EMPTY_TABS } from '../constants/constant';
 import EmailList from '../EmailList';
+import { Inbox } from '../GAPI';
 
 const Emails = () => {
     const [starredEmail, setStarredEmail] = useState(false);
@@ -15,14 +16,22 @@ const Emails = () => {
 
     const { openDrawer } = useOutletContext();
     const { type } = useParams();
-
+    const [ data,setData ] = useState([]);
     const getEmailsService = useApi(API_URLS.getEmailFromType);
     const deleteEmailsService = useApi(API_URLS.deleteEmails);
     const moveEmailsToBin = useApi(API_URLS.moveEmailsToBin);
-
+    
     useEffect(() => {
-        getEmailsService.call({}, type);
-    }, [type, starredEmail])
+        switch(type){
+            case "inbox":
+                Inbox().then((response)=>{
+                  setData(response.messages.messages);  
+                });
+                break;
+            default:
+                console.log("Wha?")
+        }
+    }, [type,data])
 
     const selectAllEmails = (e) => {
         if (e.target.checked) {
@@ -49,7 +58,7 @@ const Emails = () => {
                 <DeleteOutline onClick={(e) => deleteSelectedEmails(e)} />
             </Box>
             <List>
-                <EmailList/>
+                <EmailList data={data}/>
             </List> 
             {
                 getEmailsService?.response?.length === 0 &&

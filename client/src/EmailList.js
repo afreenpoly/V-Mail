@@ -33,74 +33,20 @@ const Date = styled(Typography)({
     color: '#5F6368'
 })
 
-var cred= JSON.parse(localStorage.getItem('accessRefresh'))
-console.log(cred)
-const EmailDetails = async (messageId) => {
-    try {
-        // Make a fetch request to the Gmail API to get the email message details
-        const response = await fetch(`https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}`, {
-            headers: {
-                Authorization: `Bearer ${cred.access_token}` // Include your OAuth2 access token here
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch email message');
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching email message:', error);
-        throw error; // Rethrow the error to be handled by the caller
-    }
-};
 
 
-const EmailList = () => {
-    const [message, setMessage] = useState([]);
+const EmailList = (data) => {
     const navigate=useNavigate();
-    useEffect(() => {
-        const fetchEmails = async () => {
-            try {
-                // Fetch email data from Gmail API
-                const response = await fetch(
-                    'https://www.googleapis.com/gmail/v1/users/me/messages?q=in:inbox',
-                    {
-                        headers: {
-                            Authorization: `Bearer ${cred.access_token}` // Replace accessToken with your actual access token
-                        }
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch emails');
-                }
-                const dict=[];
-                const data = await response.json();                
-                for(var i=0;i<10;i++){
-                    const emaildata=await EmailDetails(data.messages[i].id);
-                    dict.push(emaildata)
-                    setMessage(dict);
-                }
-            } catch (error) {
-                console.error('Error fetching emails:', error);
-            }
-        };
-
-        fetchEmails();
-    }, []); // Empty dependency array ensures the effect runs only once
-
     return (
-        message.map((emailDetail) => (
+        data.data.map((emailDetail) => (
         <Wrapper>
         <Checkbox 
             size="small" 
         />
         <Box onClick={() => navigate(routes.view.path, { state: { email: emailDetail }})}>
-            <Typography style={{ width: 200 }}>{emailDetail.payload.headers.find(header => header.name === 'From').value.split('@')[0]}</Typography>
+            <Typography style={{ width: 200 }}>{emailDetail.from.split('@')[0]}</Typography>
             <Indicator>Inbox</Indicator>
-            <Typography>{emailDetail.payload.headers.find(header => header.name === 'Subject').value} {emailDetail.snippet && '-'} {emailDetail.snippet}</Typography>
+            <Typography>{emailDetail.subject} {emailDetail.snippet && '-'}</Typography>
             <Date>
             </Date>
         </Box>
