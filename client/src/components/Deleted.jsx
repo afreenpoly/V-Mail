@@ -3,7 +3,7 @@ import { useOutletContext, useLocation } from 'react-router-dom';
 import { emptyProfilePic } from '../constants/constant';
 import { ArrowBack, ArrowBackIos, ArrowBackRounded, ArrowForward, Delete, ForwardRounded, ReplyRounded, Star } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { ComposeForward, ComposeReply, ReadMail, SetupRecognition } from '../WebSpeech';
+import { ComposeForward, ComposeReply, ReadDeleted, ReadMail, SetupRecognition } from '../WebSpeech';
 import Reply from './Reply';
 import Forward from './Forward';
 
@@ -84,37 +84,19 @@ Frecogn.addEventListener("audioend", () => {
 
 var msg = new SpeechSynthesisUtterance();
 var final_transcript=''
-const ViewEmail = () => {
+const Deleted = () => {
     const { openDrawer } = useOutletContext();
-    const [openD, setOpenD] = useState(false);
-    const [openF, setOpenF] = useState(false);
+
     const { state } = useLocation();
     const { email } = state;
 
-    const onReplyClick = () => {
-        f.mic=false;
-        recogn.abort();        
-        msg.text="Verbalize the reply content";
-        window.speechSynthesis.speak(msg);  
-        setTimeout(function(){Rrecogn.start();},3000);
-        setOpenD(true);
-    }
 
-    const onForwardClick = () => {
-        f.mic=false;
-        recogn.abort();        
-        msg.text="Please spell out the email address of the recipient";
-        window.speechSynthesis.speak(msg);  
-        setTimeout(function(){Frecogn.start();},3000);
-        setOpenF(true);
-    }
-
-    const trash = async () => {
+    const untrash = async () => {
         try {
           const sendDetails = {
             message_id: email.id,
           }
-      const response = await fetch('https://127.0.0.1:8080/trash', {
+      const response = await fetch('https://127.0.0.1:8080/untrash', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -124,37 +106,11 @@ const ViewEmail = () => {
       });
   
       if (!response.ok) {
-          throw new Error('Failed to trash email');
+          throw new Error('Failed to untrash email');
       }
           else{
             
-            console.log('Email trashed successfully');
-          }
-      } catch (error) {
-          console.error('Error:', error);
-      }
-    };
-
-    const star = async () => {
-        try {
-          const sendDetails = {
-            message_id: email.id,
-          }
-      const response = await fetch('https://127.0.0.1:8080/star', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(sendDetails),
-          credentials: "include"
-      });
-  
-      if (!response.ok) {
-          throw new Error('Failed to star email');
-      }
-          else{
-            
-            console.log('Email starred successfully');
+            console.log('Email untrashed successfully');
           }
       } catch (error) {
           console.error('Error:', error);
@@ -162,18 +118,15 @@ const ViewEmail = () => {
     };
 
     useEffect(() => {
-            ReadMail(recogn,f,email,trash,star,onForwardClick,onReplyClick)
+            ReadDeleted(recogn,f,email,untrash)
     },[email])
 
 
     return (
         <Box style={openDrawer ? { marginLeft: 250, width: '100%' } : { width: '100%' } }>
             <IconWrapper>
-                <ArrowBack fontSize='small' color="action" onClick={() =>{ window.location="/emails/inbox"; f.mic="false" ; recogn.stop(); }} />
-                <Delete fontSize='small' color="action" style={{ marginLeft: 40 }} onClick={() => trash() } />
-                <Star fontSize='small' color="action" style={{ marginLeft: 40 }} onClick={() => star() } />
-                <ReplyRounded fontSize='small' color="action" onClick={() => onReplyClick() } />
-                <ForwardRounded fontSize='small' color="action" onClick={() => onForwardClick() } />
+                <ArrowBack fontSize='small' color="action" onClick={() =>{ window.location="/emails/bin"; f.mic="false" ; recogn.stop(); }} />
+                <Delete fontSize='small' color="action" style={{ marginLeft: 40 }} onClick={() => untrash() } />
             </IconWrapper>
             <Subject>{email.subject} <Indicator component="span">Inbox</Indicator></Subject>
             <Box style={{ display: 'flex' }}>
@@ -193,12 +146,8 @@ const ViewEmail = () => {
                     <Typography style={{ marginTop: 20 }}>{email.body}</Typography>
                 </Container>
             </Box>
-            <Reply open={openD} setOpenDrawer={setOpenD}  ct={f} recognition={recogn} recognition1={Rrecogn} ComposeReply={ComposeReply}
-             final_transcript={final_transcript} msg={msg} message_id={email.id}/>
-            <Forward open={openF} setOpenDrawer={setOpenF}  ct={f} recognition={recogn} recognition1={Frecogn} ComposeForward={ComposeForward}
-             final_transcript={final_transcript} msg={msg} message_id={email.id}/>
         </Box>       
     )
 }
 
-export default ViewEmail;
+export default Deleted;

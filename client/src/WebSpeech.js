@@ -182,14 +182,28 @@ export function ListEmail(recog,flag,data,navigate){
             console.log(event.results[i][0].transcript);
             switch(event.results[i][0].transcript.toLowerCase().replace(/\s+/g, '').replace('.','')){
               case "read":
+                if(window.location.pathname!="/emails/bin"){
                 navigate("/view", { state: { email: data[flag.count] }})
                 flag.count=0
                 flag.mic=false
                 recog.stop();
+                }
+                else{
+                  navigate("/deleted", { state: { email: data[flag.count] }})
+                  flag.count=0
+                  flag.mic=false
+                  recog.stop();
+                }
                 break
               case "next":
+                if(window.location.pathname!="/emails/bin"){
                 flag.count+=1
                 navigate("/emails/inbox")
+                }
+                else{
+                  flag.count+=1
+                  navigate("/emails/bin")                  
+                }
                 break
               case "cancel":
                 flag.count=0
@@ -198,7 +212,7 @@ export function ListEmail(recog,flag,data,navigate){
               default:
                 flag.mic=false
                 recog.stop();
-                if(window.location.pathname=="/emails/inbox"){
+                if(window.location.pathname=="/emails/inbox" || window.location.pathname=="/emails/bin"){
                 msger.text="Read, Next, Cancel"
                 setTimeout(function(){ flag.mic=true;recog.start();},3000);
                 window.speechSynthesis.speak(msger);
@@ -216,7 +230,7 @@ export function ListEmail(recog,flag,data,navigate){
     else
       flag.count=0
     var timer = setInterval(function() {
-      if (!window.speechSynthesis.speaking && window.location.pathname=="/emails/inbox"){
+      if (!window.speechSynthesis.speaking &&(window.location.pathname=="/emails/inbox" || window.location.pathname=="/emails/bin")){
         clearInterval(timer);        
         msger.text="Read, Next, Cancel"
         setTimeout(function(){
@@ -277,6 +291,47 @@ export function ReadMail(recogn,f,email,trash,star,onForwardClick,onReplyClick){
       clearInterval(timer);        
       msger.text="Star, Trash, Forward, Reply, Cancel."
       setTimeout(function(){ f.mic=true;recogn.start();},5000);
+      window.speechSynthesis.speak(msger);
+    }
+  }, 1000);
+}
+
+export function ReadDeleted(recogn,f,email,untrash){
+  var msger = new SpeechSynthesisUtterance();
+  recogn.onresult = function(event) {
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+          console.log(event.results[i][0].transcript);
+          if(event.results[i][0].transcript.toLowerCase().replace(/\s+/g, '').replace('.','')!="cancel")
+            query({"inputs":event.results[i][0].transcript}).then((response) => {
+                if(response!==undefined && response.intent!==undefined){
+                    console.log(JSON.stringify(response.intent));
+                    switch(response.intent){
+                        case "untrash":
+                            untrash();
+                            window.location="/emails/bin"
+                            break;
+                        default:
+                            recogn.stop()
+                            msger.text=response.intent;
+                            window.speechSynthesis.speak(msger);
+                    }
+                }
+            });
+          else
+            window.location="/emails/bin"
+      }
+    }
+  }
+
+
+  msger.text=email.body
+  window.speechSynthesis.speak(msger);
+  var timer = setInterval(function() {
+    if (!window.speechSynthesis.speaking && window.location.pathname=="/deleted"){
+      clearInterval(timer);        
+      msger.text="Untrash or Cancel."
+      setTimeout(function(){ f.mic=true;recogn.start();},3000);
       window.speechSynthesis.speak(msger);
     }
   }, 1000);

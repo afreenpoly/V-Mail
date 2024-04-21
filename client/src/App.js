@@ -16,6 +16,7 @@ const router = createBrowserRouter(
         <Route path={`${routes.emails.path}/:type`} element={<Check/>} errorElement={<ErrorComponent />} />
         <Route path={`${routes.emails.path}`} element={<Check/>} errorElement={<ErrorComponent />} />
         <Route path={routes.view.path} element={<routes.view.element />} errorElement={<ErrorComponent />} />
+        <Route path={routes.delete.path} element={<routes.delete.element />} errorElement={<ErrorComponent />} />
       </Route>
       <Route path={routes.invalid.path} element={<ErrorComponent />} />
       <Route path={routes.logout.path} element={<routes.logout.element/>}/>

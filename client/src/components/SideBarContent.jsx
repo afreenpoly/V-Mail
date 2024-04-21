@@ -98,6 +98,10 @@ const SideBarContent = () => {
                     ct.mic=false;
                     recognition.stop();
                     break
+                case "/emails/bin":
+                    ct.mic=false;
+                    recognition.stop();
+                    break
 
             }
     }, [location])

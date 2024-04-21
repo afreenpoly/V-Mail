@@ -11,9 +11,9 @@ function Check() {
     const { setEmail }=useEmail();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
+    var x=0;
     useEffect(() => {
-        async function check() {
+        async function check() {            
             try {
 
                 const resp = await fetch(
@@ -41,7 +41,7 @@ function Check() {
 
     return (
         <>
-            {loading ? (
+            {loading && x==0 ? (
                 <SuspenseLoader />
             ) : (
                 <routes.emails.element />

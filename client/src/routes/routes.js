@@ -3,6 +3,7 @@ import { lazy } from 'react';
 const Main = lazy(() => import('../pages/Main'));
 const Emails = lazy(() => import('../components/Emails'));
 const ViewEmail = lazy(() => import('../components/ViewEmail'));
+const Deleted = lazy(() => import('../components/Deleted'));
 const Homepage = lazy(() => import('../components/Homepage/Homepage'));
 const InboxPage = lazy(() => import('../pages/InboxPage'));
 const ErrorComponent = lazy(() => import('../components/common/ErrorComponent'))
@@ -25,6 +26,10 @@ const routes = {
     view: {
         path: '/view',
         element: ViewEmail
+    },
+    delete: {
+        path: '/deleted',
+        element: Deleted
     },
     homepage: {
         path: '/home',

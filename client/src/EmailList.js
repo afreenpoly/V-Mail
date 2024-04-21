@@ -59,7 +59,16 @@ const EmailList = (data) => {
         <Checkbox 
             size="small" 
         />
-        <Box onClick={() =>{ navigate(routes.view.path, { state: { email: emailDetail }}); flag.count=0 ; flag.mic=false ; recog.stop(); }}>
+        <Box onClick={() =>{
+            if(window.location.pathname=="/emails/inbox"){
+             navigate(routes.view.path, { state: { email: emailDetail }});
+             flag.count=0 ; flag.mic=false ; recog.stop(); 
+            }
+            else{
+                navigate(routes.delete.path, { state: { email: emailDetail }});
+                flag.count=0 ; flag.mic=false ; recog.stop();  
+            }
+             }}>
             <Typography style={{ width: 200 }}>{emailDetail.from.split(' ')[0]}</Typography>
             <Indicator>Inbox</Indicator>
             <Typography>{emailDetail.subject} {emailDetail.snippet && '-'}</Typography>

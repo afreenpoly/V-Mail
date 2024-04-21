@@ -8,12 +8,11 @@ import { DeleteOutline } from '@mui/icons-material';
 import NoMails from './common/NoMails';
 import { EMPTY_TABS } from '../constants/constant';
 import EmailList from '../EmailList';
-import { Inbox } from '../GAPI';
+import { Bin, Inbox } from '../GAPI';
 
 const Emails = () => {
     const [starredEmail, setStarredEmail] = useState(false);
     const [selectedEmails, setSelectedEmails] = useState([]);
-
     const { openDrawer } = useOutletContext();
     const { type } = useParams();
     const [ data,setData ] = useState([]);
@@ -26,6 +25,11 @@ const Emails = () => {
             case "inbox":
                 Inbox().then((response)=>{
                   setData(response.messages.messages);  
+                });
+                break;
+            case "bin":
+                Bin().then((response)=>{
+                    setData(response.messages.messages);
                 });
                 break;
             default:
