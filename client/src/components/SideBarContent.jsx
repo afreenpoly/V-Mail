@@ -1,21 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {Box,Button, List, ListItem, styled } from '@mui/material';
 import { SIDEBAR_DATA } from '../config/sidebar.config';
 import { CreateOutlined } from '@mui/icons-material';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { routes } from '../routes/routes';
-import { useNavigate } from 'react-router-dom';
 import ComposeMail from './ComposeMail';
-import { Compose, Result, SetupRecognition } from '../WebSpeech';
+import { Compose, ListEmail, Result, SetupRecognition } from '../WebSpeech';
 
-
-var ct={"count":0,"counter":0,"mic":true}
+var ct={"count":0,"counter":0,"mic":true,"countdown":3000,"recog":false}
 
 var msg = new SpeechSynthesisUtterance();
-msg.text="Hello, What would you like to do?"
-window.speechSynthesis.speak(msg);
 
-var recognition = SetupRecognition();
+var recognition = SetupRecognition(ct);
 recognition.addEventListener("audioend", () => {
     console.log("Audio capturing ended");
     if(ct.mic){
@@ -23,14 +19,15 @@ recognition.addEventListener("audioend", () => {
         setTimeout(function(){ recognition.start();},1000);
     }
 });
-setTimeout(function(){recognition.start()},3000);
 
-var recognition1 = SetupRecognition();   
+
+
+var recognition1 = SetupRecognition(ct);   
 recognition1.addEventListener("audioend", () => {
     console.log("Audio capturing ended");
     if(!ct.mic){
         recognition1.abort();
-        setTimeout(function(){ recognition1.start();},1000);
+        setTimeout(function(){ recognition1.start();},ct.countdown);
     }
 });
 var final_transcript='';
@@ -64,18 +61,46 @@ const ComposeButton = styled(Button)`
 const SideBarContent = () => {
    
     const navigate=useNavigate();
+    const location=useLocation();
     const [openDrawer, setOpenDrawer] = useState(false);
 
     const { type } = useParams();
 
     const onComposeClick = () => {
         ct.mic=false;
+        ct.countdown=3000;
         recognition.abort();        
         msg.text="Please spell out the email address of the recipient";
         window.speechSynthesis.speak(msg);  
         setTimeout(function(){recognition1.start();},3000);
         setOpenDrawer(true);
     }
+
+    useEffect(() => {
+            console.log(location.pathname)
+            switch(location.pathname){
+                case "/emails":
+                    if(ct.mic===false){
+                        ct.mic=true
+                        recognition1.abort();
+                        ct.count=0;
+                        ct.counter=0;
+                        final_transcript='';
+                    }
+                    if(ct.recog===false){
+                        ct.recog=true
+                        msg.text="Hello, What would you like to do?"
+                        window.speechSynthesis.speak(msg);
+                        setTimeout(function(){recognition.start()},3000);
+                    }
+                    break
+                case "/emails/inbox":
+                    ct.mic=false;
+                    recognition.stop();
+                    break
+
+            }
+    }, [location])
     
   Result(recognition,navigate,onComposeClick,msg);
       

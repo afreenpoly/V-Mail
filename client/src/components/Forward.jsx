@@ -58,16 +58,16 @@ const SendButton = styled(Button)`
   width: 100px;
 `;
 
-var dict={"to": '',"subject":'',"body":''}
+var dict={"recipient_list":''}
 
-const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,final_transcript,msg}) => {
+const Forward = ({ open, setOpenDrawer,ct,recognition1,recognition,ComposeForward,final_transcript,msg,message_id}) => {
   const [data, setData] = useState({});
 
-  var msgs=["Please spell out the email address of the recipient","Subject","Please verbalize the content of your email ","Proceed forward yes or no","Add, Replace or Cancel"];
+  var msgs=["Proceed forward yes or no","Retry or Cancel"];
 
   useEffect(()=>{
     const interval=setInterval(()=>{
-      setData({"to":dict.to.toLowerCase(),"subject":dict.subject,"body":dict.body});
+      setData({"recipient_list":dict.recipient_list});
     },500);
     return () => clearInterval(interval);
   }, []);
@@ -78,14 +78,13 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
     dict[e.target.name]=e.target.value
   };
 
-  const sendEmail = async () => {
+  const sendEmailF = async () => {
       try {
         const sendDetails = {
-          recipient: dict.to,
-          subject: dict.subject,
-          body: dict.body
+          message_id: message_id,
+          recipient_list: dict.recipient_list
         }
-    const response = await fetch('https://127.0.0.1:8080/send', {
+    const response = await fetch('https://127.0.0.1:8080/forward', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -103,7 +102,7 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
           ct.count=0;
           ct.counter=0;
           final_transcript='';
-          dict={"to": '',"subject":'',"body":'' };
+          dict={"recipient_list":''};
           setTimeout(function(){recognition.start();},1000);
           setOpenDrawer(false);
           setData({});
@@ -114,10 +113,11 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
     }
   };
 
-  const closeComposeMail = () => {
+  const closeComposeMailF = () => {
       ct.mic=true
       recognition1.abort();
-      dict={"to": '',"subject":'',"body":'' };
+      dict={"recipient_list":''};
+      final_transcript='';
       ct.count=0;
       ct.counter=0;
       setTimeout(function(){recognition.start();},1000);
@@ -125,42 +125,28 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
       setData({});
   };
 
-  Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail,closeComposeMail)
+  ComposeForward(recognition1,ct,final_transcript,msg,msgs,dict,sendEmailF,closeComposeMailF)
 
   return (
     <Dialog open={open} PaperProps={{ sx: dialogStyle }}>
       <Header>
-        <Typography>New Message</Typography>
-        <Close fontSize="small" onClick={(e) => closeComposeMail(e)} />
+        <Typography>Forward</Typography>
+        <Close fontSize="small" onClick={(e) => closeComposeMailF(e)} />
       </Header>
       <RecipientWrapper>
         <InputBase
           placeholder="Recipients"
-          name="to"
+          name="recipient_list"
           onChange={(e) => onValueChange(e)}
-          value={data.to}
-        />
-        <InputBase
-          placeholder="Subject"
-          name="subject"
-          onChange={(e) => onValueChange(e)}
-          value={data.subject}
+          value={data.recipient_list}
         />
       </RecipientWrapper>
-      <TextField
-        multiline
-        rows={20}
-        sx={{ "& .MuiOutlinedInput-notchedOutline": { border: "none" } }}
-        name="body"
-        onChange={(e) => onValueChange(e)}
-        value={data.body}
-      />
       <Footer>
-        <SendButton onClick={(e) => sendEmail(e)}>Send</SendButton>
+        <SendButton onClick={(e) => sendEmailF(e)}>Send</SendButton>
         <DeleteOutline onClick={() => setOpenDrawer(false)} />
       </Footer>
     </Dialog>
   );
 };
 
-export default ComposeMail
+export default Forward

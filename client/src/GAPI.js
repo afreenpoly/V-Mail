@@ -1,9 +1,8 @@
 export async function Inbox() {
     const response = await fetch(
-        "http://localhost:5000/inbox",
+        "https://127.0.0.1:8080/inbox",
         {
-            headers: {'Content-Type': 'application/json'},
-            method: "GET",
+            credentials: "include"
         }
     );
     const result = await response.json();

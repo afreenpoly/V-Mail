@@ -14,7 +14,7 @@ const Verify = () => {
       localStorage.setItem('authInfo', JSON.stringify(params))
     }
     return(
-        <Navigate to="/emails/inbox"/>
+        <Navigate to="/emails"/>
     );
 }
 

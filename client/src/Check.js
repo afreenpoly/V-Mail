@@ -15,55 +15,18 @@ function Check() {
     useEffect(() => {
         async function check() {
             try {
-                var cred = JSON.parse(localStorage.getItem('authInfo'));
-                var access_code = cred['code']
-                const tokensResponse = await fetch(
-                    'https://oauth2.googleapis.com/token', {
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: new URLSearchParams({
-                            code: access_code,
-                            client_id: CLIENT_ID,
-                            client_secret: CLIENT_SECRET,
-                            redirect_uri: REDIRECT_URI,
-                            grant_type: 'authorization_code',
-                        }),
-                    }
-                );
-        
-                const clientTokens = await tokensResponse.json();
-                console.log(clientTokens);
-
-                // send responseData to server
-                
-                localStorage.setItem("accessRefresh", JSON.stringify(clientTokens))
-                var tokensToSend = JSON.parse(localStorage.getItem('accessRefresh'));
-                const credsResponse = await fetch('http://localhost:5000/tokens', {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(tokensToSend)
-                });
-                const credsResponseJSON = await credsResponse.json()
-                console.log(credsResponseJSON)
-                
 
                 const resp = await fetch(
-                    'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=' + clientTokens.access_token
+                    'https://127.0.0.1:8080/checkuser',
+                    { credentials:"include"}
                 );
 
                 const respJSON = await resp.json();
                 console.log(respJSON)
-
-                respJSON.email='aadilsayad@gmail.com'
                 
-                if (respJSON.email !== undefined) {
+                if (respJSON.allow === 1) {
                     setEmail(respJSON.email);
                     setLoading(false);
-                    navigate('/emails/inbox');
                 }
                 else{
                     navigate('/home');

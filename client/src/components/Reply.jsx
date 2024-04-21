@@ -58,16 +58,16 @@ const SendButton = styled(Button)`
   width: 100px;
 `;
 
-var dict={"to": '',"subject":'',"body":''}
+var dict={"reply_body":''}
 
-const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,final_transcript,msg}) => {
+const Reply = ({ open, setOpenDrawer,ct,recognition1,recognition,ComposeReply,final_transcript,msg,message_id}) => {
   const [data, setData] = useState({});
 
-  var msgs=["Please spell out the email address of the recipient","Subject","Please verbalize the content of your email ","Proceed forward yes or no","Add, Replace or Cancel"];
+  var msgs=["Proceed forward yes or no","Retry or Cancel"];
 
   useEffect(()=>{
     const interval=setInterval(()=>{
-      setData({"to":dict.to.toLowerCase(),"subject":dict.subject,"body":dict.body});
+      setData({"reply_body":dict.reply_body});
     },500);
     return () => clearInterval(interval);
   }, []);
@@ -81,11 +81,10 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
   const sendEmail = async () => {
       try {
         const sendDetails = {
-          recipient: dict.to,
-          subject: dict.subject,
-          body: dict.body
+          message_id: message_id,
+          reply_body: dict.reply_body
         }
-    const response = await fetch('https://127.0.0.1:8080/send', {
+    const response = await fetch('https://127.0.0.1:8080/reply', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -103,7 +102,7 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
           ct.count=0;
           ct.counter=0;
           final_transcript='';
-          dict={"to": '',"subject":'',"body":'' };
+          dict={"reply_body":''};
           setTimeout(function(){recognition.start();},1000);
           setOpenDrawer(false);
           setData({});
@@ -117,7 +116,7 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
   const closeComposeMail = () => {
       ct.mic=true
       recognition1.abort();
-      dict={"to": '',"subject":'',"body":'' };
+      dict={"reply_body":''};
       ct.count=0;
       ct.counter=0;
       setTimeout(function(){recognition.start();},1000);
@@ -125,35 +124,21 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
       setData({});
   };
 
-  Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail,closeComposeMail)
+  ComposeReply(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail,closeComposeMail)
 
   return (
     <Dialog open={open} PaperProps={{ sx: dialogStyle }}>
       <Header>
-        <Typography>New Message</Typography>
+        <Typography>Reply</Typography>
         <Close fontSize="small" onClick={(e) => closeComposeMail(e)} />
       </Header>
-      <RecipientWrapper>
-        <InputBase
-          placeholder="Recipients"
-          name="to"
-          onChange={(e) => onValueChange(e)}
-          value={data.to}
-        />
-        <InputBase
-          placeholder="Subject"
-          name="subject"
-          onChange={(e) => onValueChange(e)}
-          value={data.subject}
-        />
-      </RecipientWrapper>
       <TextField
         multiline
         rows={20}
         sx={{ "& .MuiOutlinedInput-notchedOutline": { border: "none" } }}
-        name="body"
+        name="reply_body"
         onChange={(e) => onValueChange(e)}
-        value={data.body}
+        value={data.reply_body}
       />
       <Footer>
         <SendButton onClick={(e) => sendEmail(e)}>Send</SendButton>
@@ -163,4 +148,4 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
   );
 };
 
-export default ComposeMail
+export default Reply

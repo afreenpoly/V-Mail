@@ -29,9 +29,9 @@ const Emails = () => {
                 });
                 break;
             default:
-                console.log("Wha?")
+                console.log(type)
         }
-    }, [type,data])
+    }, [type])
 
     const selectAllEmails = (e) => {
         if (e.target.checked) {

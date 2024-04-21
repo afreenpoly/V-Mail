@@ -2,7 +2,7 @@ import React from "react";
 import Features from "./Features";
 import vmailLogo from "../../images/vmail_t.png";
 
-const Homepage = () => {
+const LoginPage = () => {
   return (
     <div className="flex min-h-full w-screen flex-col sm:supports-[min-height:100dvh]:min-h-[100dvh] md:grid md:grid-cols-2 lg:grid-cols-[70%_30%]">
       {/* Left Section */}
@@ -59,8 +59,8 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default LoginPage;
 
 const signIn = () => {
-  window.location="https:127.0.0.1:8080/login"
+  window.location = "https:127.0.0.1:8080/login"
 }
