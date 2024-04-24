@@ -37,36 +37,15 @@ const Emails = () => {
         }
     }, [type])
 
-    const selectAllEmails = (e) => {
-        if (e.target.checked) {
-            const emails = getEmailsService?.response?.map(email => email._id);
-            setSelectedEmails(emails);
-        } else {
-            setSelectedEmails([]);
-        }
-    }
 
-    const deleteSelectedEmails = () => {
-        if (type === 'bin') {
-            deleteEmailsService.call(selectedEmails);
-        } else {
-            moveEmailsToBin.call(selectedEmails);
-        }
-        setStarredEmail(prevState => !prevState);
-    }
 
     return (
         <Box style={openDrawer ? { marginLeft: 250, width: '100%' } : { width: '100%' } }>
-            <Box style={{ padding: '20px 10px 0 10px', display: 'flex', alignItems: 'center' }}>
-                <Checkbox size="small" onChange={(e) => selectAllEmails(e)} />
-                <DeleteOutline onClick={(e) => deleteSelectedEmails(e)} />
-            </Box>
             <List>
                 <EmailList data={data}/>
             </List> 
             {
-                getEmailsService?.response?.length === 0 &&
-                    <NoMails message={EMPTY_TABS[type]} />
+                <NoMails message={EMPTY_TABS[undefined]} />
             }
         </Box>
     )

@@ -1,4 +1,5 @@
 async function query(data) {
+    try{
     const response = await fetch(
         "https://127.0.0.1:8080/intent",
         {
@@ -9,6 +10,32 @@ async function query(data) {
     );
     const result = await response.json();
     return result;
+  }
+  catch{
+    return {"intent":"unknown"}
+  }
+}
+
+function beeper(frequency=100){
+  var constraints = { audio: true }
+  navigator.mediaDevices.getUserMedia(constraints)
+  .then((stream) => {
+      var audioContext = new AudioContext();
+      const oscillator = audioContext.createOscillator();
+      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequency of 200 Hz
+      oscillator.detune.setValueAtTime(frequency, audioContext.currentTime); // Detune by 200 cents
+      
+      // Connect the oscillator to the audio output
+      oscillator.connect(audioContext.destination);
+      
+      // Start the oscillator
+      oscillator.start();
+      
+      // Stop the oscillator after 1 second
+      setTimeout(() => {
+        oscillator.stop();
+      }, 300);
+  })  
 }
 
 export function Result(recognition,navigate,onComposeClick,msg){
@@ -30,9 +57,7 @@ export function Result(recognition,navigate,onComposeClick,msg){
                             onComposeClick();                    
                             break
                         default:
-                            recognition.stop()
-                            msg.text=response.intent;
-                            window.speechSynthesis.speak(msg);
+                            beeper();                         
                     }
                 }
             });
@@ -42,10 +67,19 @@ export function Result(recognition,navigate,onComposeClick,msg){
 }
 
 function ComposeInsertData(msg,msgs,recognition1,ct){
-    msg.text=msgs[3];
+    ct.mic=true
+    msg.text="You entered:"+ct.final_transcript;
     window.speechSynthesis.speak(msg);
     recognition1.stop(); 
     ct.count+=1;
+    var timer = setInterval(function() {
+      if (!window.speechSynthesis.speaking){
+        clearInterval(timer);        
+        msg.text=msgs[3];
+        window.speechSynthesis.speak(msg);
+        setTimeout(function(){ ct.mic=false;recognition1.start();},3000);
+      }
+    }, 1000);
 }
 
 export function SetupRecognition(ct){
@@ -54,6 +88,7 @@ export function SetupRecognition(ct){
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.onstart=()=>{
+        beeper(250);
         ct.recog=true
         console.log("Start")
     };
@@ -72,9 +107,10 @@ export function SetupRecognition(ct){
     return recognition;
 }
 
-export function Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail,closeComposeMail){
+export function Compose(recognition1,ct,msg,msgs,dict,sendEmail,closeComposeMail){
     recognition1.onresult = function(event) {
         var interim_transcript = '';
+        var final_transcript='';
         for (var i = event.resultIndex; i < event.results.length; ++i) {
           if (event.results[i].isFinal) {
             console.log(event.results[i][0].transcript);
@@ -87,19 +123,25 @@ export function Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail
             var str=(final_transcript+interim_transcript).toLowerCase().replace(/\s+/g, '');
             if (str[str.length-1] === ".")
               str = str.slice(0,-1);
-            dict.to=str
-            if (event.results[i].isFinal)
+            dict.to=ct.final_transcript+str            
+            if (event.results[i].isFinal){
+                ct.final_transcript=dict.to
                 ComposeInsertData(msg,msgs,recognition1,ct)
+            }
             break;         
           case 3:
-            dict.subject=final_transcript+interim_transcript;
-            if (event.results[i].isFinal)
+            dict.subject=ct.final_transcript+final_transcript+interim_transcript;            
+            if (event.results[i].isFinal){
+                ct.final_transcript=dict.subject
                 ComposeInsertData(msg,msgs,recognition1,ct)
+            }
             break;          
           case 6:
-            dict.body=final_transcript+interim_transcript;
-            if (event.results[i].isFinal)
+            dict.body=ct.final_transcript+final_transcript+interim_transcript;            
+            if (event.results[i].isFinal){
+                ct.final_transcript=dict.body
                 ComposeInsertData(msg,msgs,recognition1,ct)
+            }
             break;          
           case 1:   
           case 4:
@@ -113,7 +155,7 @@ export function Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail
                     msg.text=msgs[ct.counter];
                     window.speechSynthesis.speak(msg);
                     recognition1.stop();                   
-                    final_transcript='';
+                    ct.final_transcript='';
                     interim_transcript='';
                   }
                   else{
@@ -121,7 +163,7 @@ export function Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail
                   }
                   break;
                 case "no":
-                  ct.count+=1;
+                  ct.count+=1;                  
                   msg.text=msgs[4];
                   window.speechSynthesis.speak(msg);
                   recognition1.stop();
@@ -147,7 +189,7 @@ export function Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail
               case "replace":
                 ct.count-=2;
                 interim_transcript='';
-                final_transcript='';
+                ct.final_transcript='';
                 msg.text=msgs[ct.counter];
                 window.speechSynthesis.speak(msg);
                 recognition1.stop(); 
@@ -210,13 +252,7 @@ export function ListEmail(recog,flag,data,navigate){
                 window.location="/emails"
                 break
               default:
-                flag.mic=false
-                recog.stop();
-                if(window.location.pathname=="/emails/inbox" || window.location.pathname=="/emails/bin"){
-                msger.text="Read, Next, Cancel"
-                setTimeout(function(){ flag.mic=true;recog.start();},3000);
-                window.speechSynthesis.speak(msger);
-                }
+                beeper();
                 break
             }
         }
@@ -261,8 +297,7 @@ export function ReadMail(recogn,f,email,trash,star,onForwardClick,onReplyClick){
                             onForwardClick();
                             break;
                         case "trash":
-                            trash();
-                            window.location="/emails/inbox"
+                            trash();                            
                             break;
                         case "star":
                             star();
@@ -271,9 +306,7 @@ export function ReadMail(recogn,f,email,trash,star,onForwardClick,onReplyClick){
                             onReplyClick();
                             break
                         default:
-                            recogn.stop()
-                            msger.text=response.intent;
-                            window.speechSynthesis.speak(msger);
+                            beeper();
                     }
                 }
             });
@@ -308,13 +341,10 @@ export function ReadDeleted(recogn,f,email,untrash){
                     console.log(JSON.stringify(response.intent));
                     switch(response.intent){
                         case "untrash":
-                            untrash();
-                            window.location="/emails/bin"
+                            untrash();                            
                             break;
                         default:
-                            recogn.stop()
-                            msger.text=response.intent;
-                            window.speechSynthesis.speak(msger);
+                            beeper();
                     }
                 }
             });

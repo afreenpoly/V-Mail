@@ -90,6 +90,7 @@ const ViewEmail = () => {
     const [openF, setOpenF] = useState(false);
     const { state } = useLocation();
     const { email } = state;
+    const [starred, setStarred]=useState(email.starred)
 
     const onReplyClick = () => {
         f.mic=false;
@@ -153,7 +154,7 @@ const ViewEmail = () => {
           throw new Error('Failed to star email');
       }
           else{
-            
+            setStarred(true)
             console.log('Email starred successfully');
           }
       } catch (error) {
@@ -171,7 +172,8 @@ const ViewEmail = () => {
             <IconWrapper>
                 <ArrowBack fontSize='small' color="action" onClick={() =>{ window.location="/emails/inbox"; f.mic="false" ; recogn.stop(); }} />
                 <Delete fontSize='small' color="action" style={{ marginLeft: 40 }} onClick={() => trash() } />
-                <Star fontSize='small' color="action" style={{ marginLeft: 40 }} onClick={() => star() } />
+                <Star fontSize='small' color="action" style={starred?{ fill:"gold" , marginLeft: 40 }:{ marginLeft: 40 }}
+                     onClick={() =>{ star();}} />
                 <ReplyRounded fontSize='small' color="action" onClick={() => onReplyClick() } />
                 <ForwardRounded fontSize='small' color="action" onClick={() => onForwardClick() } />
             </IconWrapper>

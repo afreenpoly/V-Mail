@@ -60,7 +60,7 @@ const SendButton = styled(Button)`
 
 var dict={"to": '',"subject":'',"body":''}
 
-const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,final_transcript,msg}) => {
+const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,msg}) => {
   const [data, setData] = useState({});
 
   var msgs=["Please spell out the email address of the recipient","Subject","Please verbalize the content of your email ","Proceed forward yes or no","Add, Replace or Cancel"];
@@ -102,7 +102,7 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
           recognition1.abort();
           ct.count=0;
           ct.counter=0;
-          final_transcript='';
+          ct.final_transcript='';
           dict={"to": '',"subject":'',"body":'' };
           setTimeout(function(){recognition.start();},1000);
           setOpenDrawer(false);
@@ -120,12 +120,13 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,f
       dict={"to": '',"subject":'',"body":'' };
       ct.count=0;
       ct.counter=0;
+      ct.final_transcript='';
       setTimeout(function(){recognition.start();},1000);
       setOpenDrawer(false);
       setData({});
   };
 
-  Compose(recognition1,ct,final_transcript,msg,msgs,dict,sendEmail,closeComposeMail)
+  Compose(recognition1,ct,msg,msgs,dict,sendEmail,closeComposeMail)
 
   return (
     <Dialog open={open} PaperProps={{ sx: dialogStyle }}>

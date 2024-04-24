@@ -7,7 +7,7 @@ import { routes } from '../routes/routes';
 import ComposeMail from './ComposeMail';
 import { Compose, ListEmail, Result, SetupRecognition } from '../WebSpeech';
 
-var ct={"count":0,"counter":0,"mic":true,"countdown":3000,"recog":false}
+var ct={"count":0,"counter":0,"mic":true,"countdown":3000,"recog":false,"final_transcript":''}
 
 var msg = new SpeechSynthesisUtterance();
 
@@ -30,7 +30,6 @@ recognition1.addEventListener("audioend", () => {
         setTimeout(function(){ recognition1.start();},ct.countdown);
     }
 });
-var final_transcript='';
       
 const Container = styled(Box)`
     padding: 8px;
@@ -85,7 +84,7 @@ const SideBarContent = () => {
                         recognition1.abort();
                         ct.count=0;
                         ct.counter=0;
-                        final_transcript='';
+                        ct.final_transcript='';
                     }
                     if(ct.recog===false){
                         ct.recog=true
@@ -126,7 +125,7 @@ const SideBarContent = () => {
                 }
             </List>
             <ComposeMail open={openDrawer} setOpenDrawer={setOpenDrawer}  ct={ct} recognition={recognition} recognition1={recognition1} Compose={Compose}
-             final_transcript={final_transcript} msg={msg}/>
+              msg={msg}/>
         </Container>
     )
 }

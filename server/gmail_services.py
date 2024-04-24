@@ -30,12 +30,18 @@ def list_messages(service, trash_only=False):
             gmail_response = service.users().messages().list(userId="me", labelIds=['INBOX']).execute()
         response_messages = gmail_response.get('messages', [])
         for response_message in response_messages:
-            temp_message = (service.users().messages().get(userId='me', id=response_message["id"]).execute())
+            temp_message = service.users().messages().get(userId='me', id=response_message["id"]).execute()
             fromEmail = None
             date = None
             subject = None
-            message_text = '' 
+            message_text = ''
             snippet = temp_message['snippet']
+            starred = False
+            labbelds = temp_message['labelIds']
+            for labelId in labbelds:
+                if labelId == 'STARRED':
+                    starred = True
+                    break
             for header in temp_message['payload']['headers']:
                 name = header['name'].lower()
                 if name == 'from':
@@ -57,7 +63,8 @@ def list_messages(service, trash_only=False):
                 'date': date,
                 'subject': subject,
                 'snippet': snippet,
-                'body': message_text
+                'body': message_text,
+                'starred': starred
             }
             messages.append(message)
             if i==10:

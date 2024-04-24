@@ -55,9 +55,9 @@ const EmailList = (data) => {
 
     return (
         data.data.map((emailDetail) => (
-        <Wrapper>
-        <Checkbox 
-            size="small" 
+        <Wrapper style={{ margin:'20px'}}>
+        <Star 
+            size="small" color="action" style={emailDetail.starred?{ fill:"gold" }:{ }}
         />
         <Box onClick={() =>{
             if(window.location.pathname=="/emails/inbox"){
