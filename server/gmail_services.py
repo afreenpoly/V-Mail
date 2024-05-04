@@ -5,10 +5,16 @@ from email.mime.multipart import MIMEMultipart
 from googleapiclient.errors import HttpError
 
 def send_message(service, recipient, subject, body):
+    # Create empty object of EmailMessage object
+    # message to be send in particular format
     message = EmailMessage()
+    
+    #fill in the contents
     message.set_content(body)
     message["To"] = recipient
     message["Subject"] = subject
+    
+    #only send in bytes format
     encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
     create_message = {"raw": encoded_message}
     try:
@@ -24,12 +30,18 @@ def list_messages(service, trash_only=False):
     messages = []
     i=0
     try:
+        
+        #to list trash emails
         if trash_only:
             gmail_response = service.users().messages().list(userId="me", labelIds=['TRASH']).execute()        
         else:
+            
+        #to list inbox
             gmail_response = service.users().messages().list(userId="me", labelIds=['INBOX']).execute()
         response_messages = gmail_response.get('messages', [])
         for response_message in response_messages:
+            
+            #from response messages , we take each emails using id (response_message["id"])
             temp_message = service.users().messages().get(userId='me', id=response_message["id"]).execute()
             fromEmail = None
             date = None
@@ -66,7 +78,12 @@ def list_messages(service, trash_only=False):
                 'body': message_text,
                 'starred': starred
             }
+            
+            #message contains *each* email and their details
+            #messages contain *all* emails with their details
             messages.append(message)
+            
+            #only to show 10 emails
             if i==10:
                 break
             i+=1
@@ -78,10 +95,14 @@ def list_messages(service, trash_only=False):
 
 
 def star_message(service, id):
+    
+    #mark the mail as starred
     request_body = {
         "addLabelIds": ["STARRED"]
     }
     try:
+        
+        #stars the email when user opens an emails and instructs to star
         starred_message = service.users().messages().modify(userId="me", id=id, body=request_body).execute()
     except HttpError as error:
         print(f"An error occurred: {error}")
@@ -99,6 +120,8 @@ def trash_message(service, id):
 
 
 def reply_to_message(service, id, reply_body):
+    
+    #raw message should be recieved , which is then decoded to get details like subject ,to etc
     original_message = service.users().messages().get(userId='me', id=id, format="raw").execute()
     raw_message = original_message['raw']
     decoded_bytes = base64.urlsafe_b64decode(raw_message.encode('ASCII'))

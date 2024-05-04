@@ -55,6 +55,9 @@ def index():
 # Homepage
 @app.route("/checkuser")
 def user():
+    
+    # login manager takes the cookie and check whether the cookie is in server session  
+    # check login.py
     if login_manager.is_logged_in():
         response = jsonify({'allow': 1})
     else:
@@ -71,8 +74,12 @@ def get_google_provider_cfg():
 def login():
     # Find out what URL to hit for Google login
     endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
+    
+    #Get the Auth Code
     params = {
         "client_id": "435103188171-s26urp6qsll47klpef1tqi5dkhu2tp1p.apps.googleusercontent.com",
+        
+        #login/callback
         "redirect_uri": request.base_url+"/callback",
         "response_type": "code",
         "scope": "https://mail.google.com",
@@ -89,9 +96,14 @@ def login():
 def callback():
     # Get authorization code Google sent back to you
     code = request.args.get("code")
+    
+    #Get the token in exchange for Auth Code
     result = "<p>code: " + code + "</p>"
+    
+    #returns urls of which one is the token endpoint
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
+    
     # Prepare and send a request to get tokens! Yay tokens!
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
@@ -129,9 +141,12 @@ def logout():
 def userdetail():
     return login_manager.get_user()
 
+# Hugging Face URL,API KEY
 API_URL = "https://api-inference.huggingface.co/models/aadilsayad/email-intent-classifier"
 headers = {"Authorization": "Bearer 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"}
 
+# Creates an object Service, which is used for send,trash etc
+# Credentials are bind together with Service,Gmail-api, version -v1
 def get_gmail_service():
     creds = Credentials(
         client_id=GOOGLE_CLIENT_ID,
@@ -143,12 +158,17 @@ def get_gmail_service():
     service = build("gmail", "v1", credentials=creds)
     return service
 
+# Hugging Face API Call
 @app.route('/intent', methods=['POST'])
 def get_intent():
     received_data = request.json
     huggingface_response = requests.post(API_URL, headers=headers, json=received_data)
+    
+    # returns the needed Intent in "Label"
     intent = huggingface_response.json()[0][0]['label']
     response = jsonify({'intent': intent})
+    
+    # Send and email-> Send ->response returned to frontend
     return response
 
 
@@ -158,6 +178,8 @@ def send():
     recipient = received_data['recipient']
     subject = received_data['subject']
     body = received_data['body']
+    
+    # get_gmail_service to create a service object
     service = get_gmail_service()
     message = send_message(service, recipient, subject, body)
     response = jsonify({
@@ -229,6 +251,9 @@ def forward():
 @app.route('/trash_list')
 def trash_list():
     service = get_gmail_service()
+    
+    #to only list trashed messages, trash only is set to true
+    #check gmail_services.py
     messages = list_messages(service, trash_only=True)
     response = jsonify({
         'messages': messages

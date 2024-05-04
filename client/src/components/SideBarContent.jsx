@@ -77,31 +77,40 @@ const SideBarContent = () => {
 
     useEffect(() => {
             console.log(location.pathname)
-            switch(location.pathname){
-                case "/emails":
-                    if(ct.mic===false){
-                        ct.mic=true
-                        recognition1.abort();
-                        ct.count=0;
-                        ct.counter=0;
-                        ct.final_transcript='';
-                    }
-                    if(ct.recog===false){
-                        ct.recog=true
-                        msg.text="Hello, What would you like to do?"
-                        window.speechSynthesis.speak(msg);
-                        setTimeout(function(){recognition.start()},3000);
-                    }
-                    break
-                case "/emails/inbox":
-                    ct.mic=false;
-                    recognition.stop();
-                    break
-                case "/emails/bin":
-                    ct.mic=false;
-                    recognition.stop();
-                    break
+            switch (location.pathname) {
+              //recognition: which intent  with send,trash list,inbox
+              // recognition1: recipient,subject,body
+              // recognition start means listening
+              case "/emails":
+                if (ct.mic === false) {
+                  ct.mic = true;
+                  recognition1.abort();
+                  ct.count = 0;
+                  ct.counter = 0;
+                  ct.final_transcript = "";
+                }
+                if (ct.recog === false) {
+                  ct.recog = true;
 
+                  // when user navigates to email, recognition starts , then if user asks to send an email
+                  // the coresponding recogntion in ----- starts
+                  msg.text = "Hello, What would you like to do?";
+                  window.speechSynthesis.speak(msg);
+                  setTimeout(function () {
+                    recognition.start();
+                  }, 3000);
+                }
+                break;
+
+              // when the corresponding recognition is started in _____ , here recognition is stopped
+              case "/emails/inbox":
+                ct.mic = false;
+                recognition.stop();
+                break;
+              case "/emails/bin":
+                ct.mic = false;
+                recognition.stop();
+                break;
             }
     }, [location])
     

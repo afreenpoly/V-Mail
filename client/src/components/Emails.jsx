@@ -21,19 +21,24 @@ const Emails = () => {
     const moveEmailsToBin = useApi(API_URLS.moveEmailsToBin);
     
     useEffect(() => {
-        switch(type){
-            case "inbox":
-                Inbox().then((response)=>{
-                  setData(response.messages.messages);  
-                });
-                break;
-            case "bin":
-                Bin().then((response)=>{
-                    setData(response.messages.messages);
-                });
-                break;
-            default:
-                console.log(type)
+        switch (type) {
+            
+          // from app.js it passes the type parameter
+          // emails/{type}
+          // if inbox calls inbox function
+          // Function in GAPI
+          case "inbox":
+            Inbox().then((response) => {
+              setData(response.messages.messages);
+            });
+            break;
+          case "bin":
+            Bin().then((response) => {
+              setData(response.messages.messages);
+            });
+            break;
+          default:
+            console.log(type);
         }
     }, [type])
 

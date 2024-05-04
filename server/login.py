@@ -6,6 +6,11 @@ class LoginManager:
         self.Sessions = []
     
     def is_logged_in(self):
+        
+        #request is a library 
+        #session -true :logged in 
+        #check main.py
+        #It flags the allow
         cookie=request.cookies.get("Session")
         if cookie in self.Sessions:
             return True
@@ -13,9 +18,14 @@ class LoginManager:
             return False
     
     def logout_user(self):
+        
+        #cookie is in client browser, session is in server
+        #deletes cookie from client , session from session array
         cookie=request.cookies.get("Session")
         response = make_response(jsonify({"done": "done"}))
         if cookie in self.Sessions:
+            
+            #removing cookie from session 
             self.Sessions.remove(cookie)
             response.set_cookie("Session", " Delete",expires="Thu, 01 Jan 1970 00:00:00 GMT", samesite="None", secure=True)
         return response
@@ -25,6 +35,8 @@ class LoginManager:
         cookie={}
         cookie["access_token"]=user["access_token"]
         # cookie["refresh_token"]=user["refresh_token"]
+        
+        #scope is gmail , Not just read only, write only. 
         cookie["scope"] = user["scope"]
         cookie=json.dumps(cookie)
         cookie= base64.encodebytes(cookie.encode("utf-8"))
