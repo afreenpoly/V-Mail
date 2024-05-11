@@ -5,12 +5,40 @@ import { CreateOutlined } from '@mui/icons-material';
 import { NavLink, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { routes } from '../routes/routes';
 import ComposeMail from './ComposeMail';
-import { Compose, ListEmail, Result, SetupRecognition } from '../WebSpeech';
+import { Compose, Result, SetupRecognition } from '../WebSpeech';
 
 var ct={"count":0,"counter":0,"mic":true,"countdown":3000,"recog":false,"final_transcript":''}
 
+const Container = styled(Box)`
+  padding: 8px;
+  & > ul {
+    padding: 10px 0 0 5px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    & > a {
+      text-decoration: none;
+      color: inherit;
+    }
+    & > a > li > svg {
+      margin-right: 20px;
+    }
+  }
+`;
+
+const ComposeButton = styled(Button)`
+  background: #c2e7ff;
+  color: #001d35;
+  border-radius: 16px;
+  padding: 15px;
+  min-width: 140px;
+  text-transform: none;
+`;
+
 var msg = new SpeechSynthesisUtterance();
 
+// To initialize mic and check mic functioning
+// 1second interval
 var recognition = SetupRecognition(ct);
 recognition.addEventListener("audioend", () => {
     console.log("Audio capturing ended");
@@ -21,7 +49,8 @@ recognition.addEventListener("audioend", () => {
 });
 
 
-
+// To initialize mic and check mic functioning
+// Questions time interval
 var recognition1 = SetupRecognition(ct);   
 recognition1.addEventListener("audioend", () => {
     console.log("Audio capturing ended");
@@ -31,32 +60,7 @@ recognition1.addEventListener("audioend", () => {
     }
 });
       
-const Container = styled(Box)`
-    padding: 8px;
-    & > ul {
-        padding: 10px 0 0 5px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        & > a {
-            text-decoration: none;
-            color: inherit;
-        }
-        & > a > li > svg {
-            margin-right: 20px;
-        }
-    }
-`
 
-const ComposeButton = styled(Button)`
-    background: #c2e7ff;
-    color: #001d35;
-    border-radius: 16px;
-    padding: 15px;
-    min-width: 140px;
-    text-transform: none;
-`
- 
 const SideBarContent = () => {
    
     const navigate=useNavigate();
@@ -102,7 +106,7 @@ const SideBarContent = () => {
                 }
                 break;
 
-              // when the corresponding recognition is started in _____ , here recognition is stopped
+              // when the corresponding recognition is started in ____, here recognition is stopped
               case "/emails/inbox":
                 ct.mic = false;
                 recognition.stop();
@@ -113,7 +117,8 @@ const SideBarContent = () => {
                 break;
             }
     }, [location])
-    
+
+// Webspeech.js
   Result(recognition,navigate,onComposeClick,msg);
       
     return (

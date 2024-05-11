@@ -1,10 +1,8 @@
-
-
 import { AppBar, Toolbar, Box, InputBase, styled } from '@mui/material';
 import { Menu as MenuIcon, Tune, HelpOutlineOutlined, SettingsOutlined, 
     AppsOutlined, AccountCircleOutlined, Search } from '@mui/icons-material'
 
-import VmailLogo from "../images/vmail_t.png";
+import VmailLogo from "../../images/vmail_t.png";
 
 const StyledAppBar = styled(AppBar)`
     background: #f5F5F5;

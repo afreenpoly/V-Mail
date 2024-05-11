@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react';
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 import { routes } from "./routes/routes";
 import SuspenseLoader from './components/common/SuspenseLoader';
-import DataProvider from './context/DataProvider';
 import Check from './Check';
 
 const ErrorComponent = lazy(() => import('./components/common/ErrorComponent'));
@@ -20,7 +19,6 @@ const router = createBrowserRouter(
       </Route>
       <Route path={routes.invalid.path} element={<ErrorComponent />} />
       <Route path={routes.logout.path} element={<routes.logout.element/>}/>
-      <Route path={routes.verify.path} element={<routes.verify.element/>}/>
     </Route>
 
   )
@@ -29,9 +27,9 @@ const router = createBrowserRouter(
 function App() {
   return (
     <Suspense fallback={<SuspenseLoader />}>
-      <DataProvider>
-          <RouterProvider router={router} />          
-      </DataProvider>
+
+        <RouterProvider router={router} />          
+
     </Suspense>
   );
 }

@@ -50,6 +50,7 @@ const EmailList = (data) => {
     const navigate=useNavigate();
     const location=useLocation();
     useEffect(() => {
+        // defined webspeech.js
         ListEmail(recog,flag,data.data,navigate)
     },[data.data,flag.count])
 
@@ -61,12 +62,22 @@ const EmailList = (data) => {
         />
         <Box onClick={() =>{
             if(window.location.pathname=="/emails/inbox"){
+
+            // navigate to /view in ViewEmail.jsx
+            // where each email is displayed
              navigate(routes.view.path, { state: { email: emailDetail }});
              flag.count=0 ; flag.mic=false ; recog.stop(); 
             }
             else{
-                navigate(routes.delete.path, { state: { email: emailDetail }});
-                flag.count=0 ; flag.mic=false ; recog.stop();  
+
+
+              // navigate to /delete in Deleted.jsx
+              // where each email is displayed
+              // the state of the email is passed to the Delete.jsx
+              navigate(routes.delete.path, { state: { email: emailDetail } });
+              flag.count = 0;
+              flag.mic = false;
+              recog.stop();
             }
              }}>
             <Typography style={{ width: 200 }}>{emailDetail.from.split(' ')[0]}</Typography>

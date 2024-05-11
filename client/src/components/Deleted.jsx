@@ -1,11 +1,8 @@
 import { Box, Typography, styled } from '@mui/material';
 import { useOutletContext, useLocation } from 'react-router-dom';
-import { emptyProfilePic } from '../constants/constant';
-import { ArrowBack, ArrowBackIos, ArrowBackRounded, ArrowForward, Delete, ForwardRounded, ReplyRounded, Star } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
-import { ComposeForward, ComposeReply, ReadDeleted, ReadMail, SetupRecognition } from '../WebSpeech';
-import Reply from './Reply';
-import Forward from './Forward';
+import { ArrowBack, Delete} from '@mui/icons-material';
+import { useEffect} from 'react';
+import { ReadDeleted, SetupRecognition } from '../WebSpeech';
 
 const IconWrapper = styled(Box)({
     padding: 15
@@ -27,13 +24,6 @@ const Indicator = styled(Box)`
     align-self: center;
 `;
 
-const Image = styled('img')({
-    borderRadius: '50%',
-    width: 40,
-    height: 40,
-    margin: '5px 10px 0 10px',
-    backgroundColor: '#cccccc'
-});
 
 const Container = styled(Box)({
     marginLeft: 15,
@@ -82,11 +72,10 @@ Frecogn.addEventListener("audioend", () => {
     }
 });
 
-var msg = new SpeechSynthesisUtterance();
-var final_transcript=''
 const Deleted = () => {
     const { openDrawer } = useOutletContext();
 
+    // The state of email is recived and stored in email
     const { state } = useLocation();
     const { email } = state;
 
@@ -118,6 +107,8 @@ const Deleted = () => {
     };
 
     useEffect(() => {
+
+        // check webspeech.jsx
             ReadDeleted(recogn,f,email,untrash)
     },[email])
 
@@ -130,7 +121,6 @@ const Deleted = () => {
             </IconWrapper>
             <Subject>{email.subject} <Indicator component="span">Inbox</Indicator></Subject>
             <Box style={{ display: 'flex' }}>
-                <Image src={emptyProfilePic} alt="profile" />
                 <Container>
                     <Box>
                         <Typography>    

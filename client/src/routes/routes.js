@@ -5,10 +5,7 @@ const Emails = lazy(() => import('../components/Emails'));
 const ViewEmail = lazy(() => import('../components/ViewEmail'));
 const Deleted = lazy(() => import('../components/Deleted'));
 const Homepage = lazy(() => import('../components/Homepage/Homepage'));
-const InboxPage = lazy(() => import('../pages/InboxPage'));
-const ErrorComponent = lazy(() => import('../components/common/ErrorComponent'))
 const Logout = lazy(() => import('../Logout'))
-const Verify = lazy(() => import('../Verify'))
 
 const routes = {
     main: {
@@ -38,12 +35,7 @@ const routes = {
     logout: {
         path: '/logout',
         element: Logout
-    },
-    verify: {
-        path: '/verify',
-        element: Verify
     }
-
 }
 
 export { routes };

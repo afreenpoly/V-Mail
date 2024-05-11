@@ -60,6 +60,8 @@ const SendButton = styled(Button)`
 
 var dict={"reply_body":''}
 
+// same as ComposeMail.jsx but for the functioning of Reply
+// only consist of "Body" , subject and To are the same
 const Reply = ({ open, setOpenDrawer,ct,recognition1,recognition,ComposeReply,final_transcript,msg,message_id}) => {
   const [data, setData] = useState({});
 

@@ -1,24 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
-import useApi from '../hooks/useApi';
-import { API_URLS } from '../services/api.urls';
-import { Box, List, Checkbox } from '@mui/material';
-import Email from './Email';
-import { DeleteOutline } from '@mui/icons-material';
-import NoMails from './common/NoMails';
-import { EMPTY_TABS } from '../constants/constant';
+import { Box, List } from '@mui/material';
 import EmailList from '../EmailList';
 import { Bin, Inbox } from '../GAPI';
 
 const Emails = () => {
-    const [starredEmail, setStarredEmail] = useState(false);
-    const [selectedEmails, setSelectedEmails] = useState([]);
     const { openDrawer } = useOutletContext();
     const { type } = useParams();
     const [ data,setData ] = useState([]);
-    const getEmailsService = useApi(API_URLS.getEmailFromType);
-    const deleteEmailsService = useApi(API_URLS.deleteEmails);
-    const moveEmailsToBin = useApi(API_URLS.moveEmailsToBin);
     
     useEffect(() => {
         switch (type) {
@@ -45,15 +34,19 @@ const Emails = () => {
 
 
     return (
-        <Box style={openDrawer ? { marginLeft: 250, width: '100%' } : { width: '100%' } }>
-            <List>
-                <EmailList data={data}/>
-            </List> 
-            {
-                <NoMails message={EMPTY_TABS[undefined]} />
-            }
-        </Box>
-    )
+      <Box
+        style={
+          openDrawer ? { marginLeft: 250, width: "100%" } : { width: "100%" }
+        }
+      >
+        {/* from user intend if inobx, the type is set as inbox and Inbox() is called in GAPI.js
+                  where the data is stored in result and returned back here which sets the data and send as a 
+                  parameter EmailList.jsx*/}
+        <List>
+          <EmailList data={data} />
+        </List>
+      </Box>
+    );
 }
 
 export default Emails;

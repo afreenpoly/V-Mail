@@ -60,6 +60,9 @@ const SendButton = styled(Button)`
 
 var dict={"recipient_list":''}
 
+
+// same as ComposeMail.jsx but for the functioning of forward
+// only consist of "To" , subject and body are the same
 const Forward = ({ open, setOpenDrawer,ct,recognition1,recognition,ComposeForward,final_transcript,msg,message_id}) => {
   const [data, setData] = useState({});
 

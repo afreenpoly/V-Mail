@@ -8,7 +8,6 @@ function Check() {
   const CLIENT_ID =
     "435103188171-s26urp6qsll47klpef1tqi5dkhu2tp1p.apps.googleusercontent.com";
   const CLIENT_SECRET = "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";
-  const REDIRECT_URI = "http://localhost:3000/verify";
   const { setEmail } = useEmail();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

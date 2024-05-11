@@ -1,6 +1,7 @@
 import { useState, Suspense } from 'react';
 
-import { Header, SideBar } from '../components';
+import Header from "../components/Bar/Header.jsx";
+import SideBar from "../components/Bar/SideBar.jsx";
 import { Box, styled } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import SuspenseLoader from '../components/common/SuspenseLoader';

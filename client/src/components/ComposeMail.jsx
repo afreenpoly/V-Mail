@@ -63,6 +63,7 @@ var dict={"to": '',"subject":'',"body":''}
 const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,msg}) => {
   const [data, setData] = useState({});
 
+  // msgs
   var msgs=["Please spell out the email address of the recipient","Subject","Please verbalize the content of your email ","Proceed forward yes or no","Add, Replace or Cancel"];
 
   useEffect(()=>{
@@ -126,6 +127,7 @@ const ComposeMail = ({ open, setOpenDrawer,ct,recognition1,recognition,Compose,m
       setData({});
   };
 
+  // defined in webspeech.jsx
   Compose(recognition1,ct,msg,msgs,dict,sendEmail,closeComposeMail)
 
   return (
