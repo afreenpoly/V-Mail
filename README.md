@@ -83,10 +83,14 @@ Vmail is an innovative email platform designed to make email communication acces
   - Test and validate the end-to-end flow.
 
 ## Screenshots
-Here are the screenshots of the login and compose pages:
-![Login Page](C:\Users\hp\Desktop\V-Mail\client\screenshots\login.png)
 
-![Compose Page](C:\Users\hp\Desktop\V-Mail\client\screenshots\compose.png)
+### Login Page
+![Login Page](./client/screenshots/login.png)
+
+### Compose Page
+![Compose Page](./client/screenshots/compose.png)
+
+
 
 
 ## Getting Started
